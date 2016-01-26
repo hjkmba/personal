@@ -90,7 +90,7 @@ foreach my $file (@list){
     if( $is_success == 0 ){
 		print "$file --> $out_file_name"." succeed ^.^\n\n";
 		system("gzip -f $out_file_name");
-		system("mv $file $Dir/backup");
+		system("mv -f $file $Dir/backup");
 	}
 	else
 	{
