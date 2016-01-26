@@ -86,8 +86,8 @@ do
 	fi
 	# 3. copy to target folder
 	dest_file="$DEST_PATH/$env/$server_name.$log_date.gz"
-	cp -f $file $dest_file && (errorMsg "$file_name: copy failed"; continue)
-	gunzip -f $dest_file && (errorMsg "$dest_file: unzip failed"; continue)
+	cp -f $file $dest_file || (errorMsg "$file_name: copy failed"; continue)
+	gunzip -f $dest_file || (errorMsg "$dest_file: unzip failed"; continue)
 	# 4. backup remote files
-	mv -f $file "$SOURCE_PATH/backup/$file_name" 2>/dev/null && (errorMsg "$file_name: backup failed"; continue)
+	mv -f $file "$SOURCE_PATH/backup/$file_name" 2>/dev/null || (errorMsg "$file_name: backup failed"; continue)
 done
