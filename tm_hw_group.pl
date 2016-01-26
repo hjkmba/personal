@@ -17,10 +17,11 @@ use warnings;
 #	1. changes the output dir and output file name
 #	2. extract server name from the file name
 #	3. add a gzip step after the file is processed
+#	4. backup the source file to ${source_dir}/backup after processed
 #
 # Usage:
 #	./tm_hw_group.pl [source_dir] [source_file_pattern]
-#	e.g:	./tm_hw_group.pl /home/users/nitang/DBA_LOG/ [${server_name}.check_processes.out.${date}.gz]
+#	e.g:	./tm_hw_group.pl /home/users/nitang/DBA_LOG [${server_name}.check_processes.out.${date}.gz]
 #
 # Further instruction:
 # 	1. source dir: /home/users/nitang/DBA_LOG/
@@ -88,7 +89,8 @@ foreach my $file (@list){
    # print dealing result
     if( $is_success == 0 ){
 		print "$file --> $out_file_name"." succeed ^.^\n\n";
-		system("gzip -f $out_file_name")
+		system("gzip -f $out_file_name");
+		system("mv $file $Dir/backup");
 	}
 	else
 	{
