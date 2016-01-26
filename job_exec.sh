@@ -15,6 +15,13 @@
 # Last update : 2015.7.1
 #
 # ##############################################################################
+# Modified by: He Dong
+# Modified At: 2015-1-25
+#
+# Updates:
+#	1. temporary change the source folder from "todo" to "test"
+#
+# ##############################################################################
 
 #SCRIPT="$0"
 APP_HOME="/home/users/qa/performance"
@@ -152,7 +159,7 @@ checkSincedb()
 	            if [ $actual_size -eq $scanned_size ]; then
 	                date_last_modification=`perl -MPOSIX=strftime -le 'print strftime("%Y%m%d%H%M", localtime((stat shift)[9]))' $file`
 	                txtv="$txtv [fully scanned since $date_last_modification]"
-	                back_up_file=$( echo ${file} | sed "s/todo\//done\//g" )
+	                back_up_file=$( echo ${file} | sed "s/test\//done\//g" )
 
 	                infoMsg "back up $file to $back_up_file"
 	                mkdir -p `dirname $back_up_file`
@@ -235,6 +242,7 @@ checkCommand() {
 	# prepare job execution configurations
 	if [ -f "$JOB_CONFIG" ] ; then
 		source "$JOB_CONFIG"
+		# LOG_FILE_PATH=/data/ejvqa/logFile/test/database/*/
 	else
 		errorMsg "job configuration file not found : $JOB_CONFIG"
 		exit
