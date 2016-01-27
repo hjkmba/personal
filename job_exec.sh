@@ -173,7 +173,7 @@ checkSincedb()
 	        done;
 	    else
 	        txt="$txt not found in sincedb file"
-	        infoMsg $txt
+	        infoMsg "$txt"
 	    fi;
 	done;
 }
