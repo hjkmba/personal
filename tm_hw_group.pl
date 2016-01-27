@@ -18,6 +18,8 @@ use warnings;
 #	2. extract server name from the file name
 #	3. add a gzip step after the file is processed
 #	4. backup the source file to ${source_dir}/backup after processed
+#	5. invoke tm_hw.pl by "perl tm_hw.pl" instead of the head setting. (us2d server has a perl environment issue seems)
+#	6. add a 3rd input parameter representing invoke user. (whoami command's path is not the same in dev15 and us2d)
 #
 # Usage:
 #	./tm_hw_group.pl [source_dir] [source_file_pattern]
@@ -59,13 +61,19 @@ closedir(DH);
 my $file_count = @list;
 print "Find ".$file_count." Hardware log files with pattern \'".$log_pattern."\'\n\n";
 
-my $user = `/usr/ucb/whoami`;
+my $user;
+if(!$ARGV[2]){
+	$user = `/usr/ucb/whoami`;
+} 
+else{
+	$user = $ARGV[2];
+}
 chomp($user);
 print $user."\n";
 my $date="";
 my @file_str = "";
 my $out_file_name= "";
-my $plfile = "/home/users/".$user."/bin/tm_hw.pl";
+my $plfile = "perl /home/users/".$user."/bin/tm_hw.pl";
 print $plfile."\n";
 my $count = 1;
 
@@ -86,7 +94,7 @@ foreach my $file (@list){
 
 	system("$plfile $file $out_file_name");
 	my $is_success = $? >> 8;
-   # print dealing result
+    # print dealing result
     if( $is_success == 0 ){
 		print "$file --> $out_file_name"." succeed ^.^\n\n";
 		system("gzip -f $out_file_name");
